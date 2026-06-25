@@ -26,7 +26,7 @@ $template   = $app->getTemplate();
 $templatePath = 'templates/' . $template;
 $iconsPath = $templatePath . "/svg/sprite.svg";
 
-include_once $templatePath . "/functions.php";
+require_once JPATH_THEMES . '/' . $template . '/functions.php';
 
 // Create a shortcut for params.
 $params = $this->item->params;
@@ -111,12 +111,12 @@ $introimg = str_replace('src="','class="img-fluid" src="', $introimg);
               <?php }?>
 		</div>
                 <div class="card-body">
-                  <h3 class="card-title h5"><?php echo $this->item->title; ?></h3>
+                  <h3 class="card-title h5"><?php echo $this->escape($this->item->title); ?></h3>
 	<?php if ($canEdit) : ?>
 		<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item)); ?>
 	<?php endif; 
                 
-    if($summary !== "") { echo '<p class="card-text">' . $summary  . '</p>'; }
+    if($summary !== "") { echo '<p class="card-text">' . htmlspecialchars((string) $summary, ENT_QUOTES, 'UTF-8')  . '</p>'; }
                 
                 if ($params->get('access-view')) :
 			$link = Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
