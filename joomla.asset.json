@@ -1,0 +1,65 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "rbpat",
+  "version": "4.0.0",
+  "description": "This file contains details of the assets used by J4RB Bootstrap Italia, the default Joomla 4 site template made by Robyone.",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "template.rbpat",
+      "description": "The file containing the javascript for this template.",
+      "type": "script",
+      "uri": "template.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "template.rbpat.custom",
+      "description": "The file containing the custom style",
+      "type": "style",
+      "uri": "custom.css"
+    },
+    {
+      "name": "template.bootstrapitalia.fonts",
+      "description": "The file containing the fonts of Bootstrap Italia",
+      "type": "style",
+      "uri": "fonts.css"
+    },
+    {
+      "name": "template.bootstrapitalia.style",
+      "description": "The file containing the style of Bootstrap Italia",
+      "type": "style",
+      "uri": "bootstrap-italia.min.css"
+    },
+    {
+      "name": "template.bootstrapitalia.script",
+      "description": "The file containing the javascript of Bootstrap Italia.",
+      "type": "script",
+      "uri": "bootstrap-italia.bundle.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "rbpat",
+      "type": "preset",
+      "dependencies": [
+        "template.rbpat#script",
+        "template.bootstrapitalia.fonts#style",
+        "template.bootstrapitalia.style#style",
+        "template.bootstrapitalia.script#script",
+        "fontawesome#style",
+        "template.rbpat.custom#style"
+      ]
+    },
+    {
+      "name": "fontawesome",
+      "type": "style",
+      "uri": "fontawesome/css/all.min.css"
+    }
+  ]
+}

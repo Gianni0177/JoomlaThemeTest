@@ -1,0 +1,32 @@
+.fak.fa-community, .fa-kit.fa-community { --fa: "\e002"; --fa--fa: "\e002\e002"; }
+.fak.fa-feet, .fa-kit.fa-feet { --fa: "\e005"; --fa--fa: "\e005\e005"; }
+.fak.fa-italia-domani, .fa-kit.fa-italia-domani { --fa: "\e007"; --fa--fa: "\e007\e007"; }
+.fak.fa-mlolscuola, .fa-kit.fa-mlolscuola { --fa: "\e006"; --fa--fa: "\e006\e006"; }
+.fak.fa-pago-in-rete, .fa-kit.fa-pago-in-rete { --fa: "\e003"; --fa--fa: "\e003\e003"; }
+.fak.fa-pagopa, .fa-kit.fa-pagopa { --fa: "\e001"; --fa--fa: "\e001\e001"; }
+.fak.fa-scuola-e-competenze, .fa-kit.fa-scuola-e-competenze { --fa: "\e009"; --fa--fa: "\e009\e009"; }
+.fak.fa-servizio-civile, .fa-kit.fa-servizio-civile { --fa: "\e000"; --fa--fa: "\e000\e000"; }
+.fak.fa-user-group-graduate-solid, .fa-kit.fa-user-group-graduate-solid { --fa: "\e008"; --fa--fa: "\e008\e008"; }
+
+.fak, .fa-kit {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: var(--fa-display, inline-block);
+  font-family: "Font Awesome Kit";
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 1;
+  text-rendering: auto;
+}
+
+.fak::before, .fa-kit::before {
+  content: var(--fa);
+}
+
+@font-face {
+  font-family: "Font Awesome Kit";
+  font-style: normal;
+  font-display: block;
+  src: url("../webfonts/custom-icons.woff2") format("woff2"), url("../webfonts/custom-icons.ttf") format("truetype");
+}

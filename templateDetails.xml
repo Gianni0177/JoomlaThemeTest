@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="template" client="site" method="upgrade">
+	<name>RBPAT</name>
+	<version>2.0.0</version>
+	<creationDate>September 2025</creationDate>
+	<author>Robyone s.r.l.</author>
+	<authorEmail>sviluppo@robyone.net</authorEmail>
+	<copyright>(C) 2025 Robyone s.r.l.</copyright>
+	<description>TPL_RBPAT_XML_DESCRIPTION</description>
+    <targetplatform name="joomla" version="5.[0-9]" />
+	<files>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>functions.php</filename>
+		<filename>index.php</filename>
+		<filename>joomla.asset.json</filename>
+		<filename>offline.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>assets</folder>
+		<folder>css</folder>
+		<folder>fonts</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>scss</folder>
+		<folder>svg</folder>
+	</files>
+	<positions>
+		<position>topbar</position>
+		<position>user-menu</position>
+		<position>below-top</position>
+		<position>menu</position>
+		<position>search</position>
+		<position>banner</position>
+		<position>top-a</position>
+		<position>top-b</position>
+		<position>main-top</position>
+		<position>main-bottom</position>
+		<position>breadcrumbs</position>
+		<position>inner-breadcrumbs</position>
+		<position>inner-right</position>
+		<position>sidebar-left</position>
+		<position>sidebar-right</position>
+		<position>bottom-a</position>
+		<position>bottom-b</position>
+		<position>feedback</position>
+		<position>footer</position>
+		<position>footer-links-blocks</position>
+		<position>footer-data-blocks</position>
+		<position>footer-bottom-links-blocks</position>
+		<position>footer-0</position>
+		<position>footer-1</position>
+		<position>footer-2</position>
+		<position>footer-3</position>
+		<position>footer-4</position>
+		<position>footer-5</position>
+		<position>footer-6</position>
+		<position>thematic-area-1</position>
+		<position>thematic-area-2</position>
+		<position>container-thematic-area</position>
+		<position>container-thematic-area-row</position>
+		<position>copyright</position>
+		<position>inside-content</position>
+		<position>debug</position>
+		<position>other-featured-content-bottom</position>
+	</positions>
+	<languages>
+    	<!-- Lingua sito -->
+		<language tag="en-GB">language/en-GB/tpl_rbpat.ini</language>
+		<language tag="en-GB">language/en-GB/tpl_rbpat.sys.ini</language>
+		<language tag="it-IT">language/it-IT/tpl_rbpat.ini</language>
+		<language tag="it-IT">language/it-IT/tpl_rbpat.sys.ini</language>
+		<!-- Lingua backend -->
+    	<language tag="it-IT" client="administrator">administrator/language/it-IT/it-IT.tpl_rbpat.ini</language>
+    	<language tag="en-GB" client="administrator">administrator/language/en-GB/en-GB.tpl_rbpat.ini</language>
+	</languages>
+	<updateservers>
+   		<server type="extension" name="Robyone" priority="1">https://webextensions.robyone.net/resources/tmpl_rbpat/update.xml</server>
+	</updateservers>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+
+				<field
+					name="faviconFile"
+					type="media"
+					default=""
+					label="TPL_RBPAT_FAVICON_LABEL"
+				/>
+
+				<field
+					name="brand"
+					type="radio"
+					label="TPL_RBPAT_BRAND_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="logoFile"
+					type="media"
+					default=""
+					label="TPL_RBPAT_LOGO_LABEL"
+					showon="brand:1"
+				/>
+
+				<field
+					name="siteTitle"
+					type="text"
+					default=""
+					label="TPL_RBPAT_TITLE"
+					filter="string"
+					showon="brand:1"
+				/>
+
+				<field
+					name="siteDescription"
+					type="text"
+					default=""
+					label="TPL_RBPAT_TAGLINE"
+					filter="string"
+					showon="brand:1"
+				/>
+
+				
+				<field
+					name="headerTopLight"
+					type="radio"
+					label="TPL_RBPAT_HEADERTOPLIGHT_LABEL"
+					default="0"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="headerLight"
+					type="radio"
+					label="TPL_RBPAT_HEADERLIGHT_LABEL"
+					default="0"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="headerNavLight"
+					type="radio"
+					label="TPL_RBPAT_HEADERNAVLIGHT_LABEL"
+					default="0"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
+				<field
+					name="parentcorporation"
+					type="radio"
+					label="TPL_RBPAT_PARENTCORPORATION_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
+				<field
+					name="parentcorporationDescription"
+					type="text"
+					default=""
+					label="TPL_RBPAT_PARENTCORPORATION_DESC"
+					filter="string"
+					showon="parentcorporation:1"
+				/>
+				
+				<field
+					name="parentcorporationUrl"
+					type="url"
+					default=""
+					label="TPL_RBPAT_PARENTCORPORATION_URL"
+					filter="string"
+					showon="parentcorporation:1"
+				/>
+
+				<field
+					name="headerasidearea"
+					type="radio"
+					label="TPL_RBPAT_HEADERASIDEAREA_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
+				<field
+					name="headerasideareaMenuItemId"
+					type="menuitem"
+					default=""
+					label="TPL_RBPAT_HEADERASIDEAREA_MENUITEM"
+					filter="string"
+					showon="headerasidearea:1"
+				/>
+				
+				<field
+					name="headerasideareaLabel"
+					type="text"
+					default=""
+					label="TPL_RBPAT_HEADERASIDEAREA_DESC"
+					filter="string"
+					showon="headerasidearea:1"
+				/>
+            
+				<field
+					name="headerSearchMenuItemId"
+					type="menuitem"
+					default=""
+					label="TPL_RBPAT_HEADER_SEARCHMENUITEM"
+					filter="string"
+				/>
+
+				<field
+					name="socialarea"
+					type="radio"
+					label="TPL_RBPAT_HEADERSOCIALAREA_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="social-facebook"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SOCIALFACEBOOK_DESC"
+					filter="string"
+					showon="socialarea:1"
+				/>
+				<field
+					name="social-instagram"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SOCIALINSTAGRAM_DESC"
+					filter="string"
+					showon="socialarea:1"
+				/>
+				<field
+					name="social-twitter"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SOCIALTWITTER_DESC"
+					filter="string"
+					showon="socialarea:1"
+				/>
+				<field
+					name="social-youtube"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SOCIALYOUTUBE_DESC"
+					filter="string"
+					showon="socialarea:1"
+				/>
+				<field
+					name="social-telegram"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SOCIALTELEGRAM_DESC"
+					filter="string"
+					showon="socialarea:1"
+				/>
+				<field
+					name="social-whatsapp"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SOCIALWHATSAPP_DESC"
+					filter="string"
+					showon="socialarea:1"
+				/>
+				<field
+					name="social-linkedin"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SOCIALLINKEDIN_DESC"
+					filter="string"
+					showon="socialarea:1"
+				/>
+				<field
+					name="social-newsletter"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SOCIALNEWSLETTER_DESC"
+					filter="string"
+					showon="socialarea:1"
+				/>
+
+				<field
+					name="cookiebar"
+					type="radio"
+					label="TPL_RBPAT_COOKIEBAR_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="cookiebarDescription"
+					type="text"
+					default="Questo sito utilizza cookies tecnici in particolare per le seguenti funzionalità: statistiche anonime e aggregate. Continuando a navigare, si accettano i cookie."
+					label="TPL_RBPAT_COOKIEBAR_DESCRIPTION"
+					filter="string"
+					showon="cookiebar:1"
+				/>
+
+				<field
+					name="cookiebarPolicyMenuItemId"
+					type="menuitem"
+					default=""
+					label="TPL_RBPAT_COOKIEBAR_POLICYMENUITEM"
+					filter="string"
+					showon="cookiebar:1"
+				/>
+
+				<field
+					name="cookiebarConfirmLabel"
+					type="text"
+					default="Ok, ho capito"
+					label="TPL_RBPAT_COOKIEBAR_CONFIRMLABEL"
+					filter="string"
+					showon="cookiebar:1"
+				/>
+				
+            	<field
+					name="siteFaIconClass"
+					type="text"
+					default=""
+					label="TPL_RBPAT_SITEICONCLASS_DESC"
+					filter="string"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
