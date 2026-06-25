@@ -26,11 +26,7 @@ $app = Factory::getApplication();
 $template   = $app->getTemplate();
 $templatePath = JUri::base() . '/templates/' . $template;
 $iconsPath = $templatePath . "/svg/sprites.svg";
-
-$domainurl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
-$themeDir = str_replace($domainurl, "", $templatePath);
-
-include_once $_SERVER['DOCUMENT_ROOT']  . '/' .  $themeDir . '/functions.php';
+require_once JPATH_THEMES . '/' . $template . '/functions.php';
 
 // Create a shortcut for params.
 $params  = &$this->item->params;
@@ -103,7 +99,7 @@ $menuitemtitle = $menuitem ? $menuitem->title : null;
                     
 			<?php
 				if($summary !== "") {
-					?><p class="text-paragraph-card u-grey-light m-0 mb-3"><?php echo $summary; ?></p><?php
+					?><p class="text-paragraph-card u-grey-light m-0 mb-3"><?php echo htmlspecialchars((string) $summary, ENT_QUOTES, 'UTF-8'); ?></p><?php
 				}
 			?>
         </div>

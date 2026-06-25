@@ -26,11 +26,7 @@ $app = Factory::getApplication();
 $template   = $app->getTemplate();
 $templatePath = JUri::base() . '/templates/' . $template;
 $iconsPath = $templatePath . "/svg/sprites.svg";
-
-$domainurl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
-$themeDir = str_replace($domainurl, "", $templatePath);
-
-include_once $_SERVER['DOCUMENT_ROOT']  . '/' .  $themeDir . '/functions.php';
+require_once JPATH_THEMES . '/' . $template . '/functions.php';
 
 // Create a shortcut for params.
 $params  = &$this->item->params;
@@ -117,7 +113,7 @@ $menuitemtitle = $menuitem ? $menuitem->title : null;
     
     <?php
     
-    if($summary !== "") { echo '<p class="mb-4 pt-3 lora">' . $summary  . '</p>'; }
+    if($summary !== "") { echo '<p class="mb-4 pt-3 lora">' . htmlspecialchars((string) $summary, ENT_QUOTES, 'UTF-8')  . '</p>'; }
 
     ?>
        <?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
@@ -126,7 +122,7 @@ $menuitemtitle = $menuitem ? $menuitem->title : null;
             
             <?php if($menuitem) {?>
               <a class="read-more pb-3" href="<?php echo $menuitem->route; ?>">
-                <span class="text">Area <?php echo $menuitemtitle?></span>
+                <span class="text">Area <?php echo htmlspecialchars((string) $menuitemtitle, ENT_QUOTES, 'UTF-8')?></span>
                 <svg class="icon">
               <use xlink:href="<?php echo $iconsPath; ?>#it-arrow-right"></use>
                 </svg>

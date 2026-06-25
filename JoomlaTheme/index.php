@@ -35,6 +35,51 @@ $headerTopLight = $this->params->get('headerTopLight');
 $headerLight = $this->params->get('headerLight');
 $headerNavLight = $this->params->get('headerNavLight');
 
+$sanitizeExternalUrl = static function ($url): string {
+  $url = trim((string) $url);
+
+  if ($url === '') {
+    return '';
+  }
+
+  if (str_starts_with($url, '/') && !str_starts_with($url, '//')) {
+    return htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+  }
+
+  $validatedUrl = filter_var($url, FILTER_VALIDATE_URL);
+
+  if ($validatedUrl === false) {
+    return '';
+  }
+
+  $scheme = strtolower((string) parse_url($validatedUrl, PHP_URL_SCHEME));
+
+  if (!in_array($scheme, ['http', 'https'], true)) {
+    return '';
+  }
+
+  return htmlspecialchars($validatedUrl, ENT_QUOTES, 'UTF-8');
+};
+
+$sanitizeCssClasses = static function ($classes): string {
+  $classes = preg_replace('/[^a-zA-Z0-9 _-]/', '', (string) $classes);
+
+  return trim(preg_replace('/\s+/', ' ', $classes ?? ''));
+};
+
+$parentCorporationUrl = $sanitizeExternalUrl($this->params->get('parentcorporationUrl'));
+$socialLinks = [
+  'facebook' => $sanitizeExternalUrl($this->params->get('social-facebook')),
+  'instagram' => $sanitizeExternalUrl($this->params->get('social-instagram')),
+  'twitter' => $sanitizeExternalUrl($this->params->get('social-twitter')),
+  'youtube' => $sanitizeExternalUrl($this->params->get('social-youtube')),
+  'telegram' => $sanitizeExternalUrl($this->params->get('social-telegram')),
+  'whatsapp' => $sanitizeExternalUrl($this->params->get('social-whatsapp')),
+  'linkedin' => $sanitizeExternalUrl($this->params->get('social-linkedin')),
+  'newsletter' => $sanitizeExternalUrl($this->params->get('social-newsletter')),
+];
+$siteFaIconClass = $sanitizeCssClasses($this->params->get('siteFaIconClass', ''));
+
 // Browsers support SVG favicons
 if($this->params->get('faviconFile')) {
   $faviconfile = explode("#", $this->params->get('faviconFile'))[0];
@@ -87,8 +132,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
         <div class="row">
           <div class="col-12">
             <div class="it-header-slim-wrapper-content">
-              <?php if ($this->params->get('parentcorporation', 1) && $this->params->get('parentcorporationDescription') && $this->params->get('parentcorporationUrl')) : ?>
-                <a class="d-lg-block navbar-brand" href="<?php echo $this->params->get('parentcorporationUrl'); ?>"><?php  echo htmlspecialchars($this->params->get('parentcorporationDescription')); ?></a>
+              <?php if ($this->params->get('parentcorporation', 1) && $this->params->get('parentcorporationDescription') && $parentCorporationUrl) : ?>
+                <a class="d-lg-block navbar-brand" href="<?php echo $parentCorporationUrl; ?>"><?php echo htmlspecialchars($this->params->get('parentcorporationDescription'), ENT_QUOTES, 'UTF-8'); ?></a>
               <?php endif; ?>
             
               <?php
@@ -130,7 +175,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
                       if($asideareaitemid) {
                         $menuitem = $sitemenu->getItem($asideareaitemid);
-                        ?><a class="btn btn-primary btn-sm" href="<?php echo $menuitem->link;?>"><?php echo $this->params->get('headerasideareaLabel'); ?></a><?php
+                        ?><a class="btn btn-primary btn-sm" href="<?php echo htmlspecialchars($menuitem->link, ENT_QUOTES, 'UTF-8');?>"><?php echo htmlspecialchars($this->params->get('headerasideareaLabel'), ENT_QUOTES, 'UTF-8'); ?></a><?php
                       }
                     ?>
                   </div>
@@ -185,14 +230,14 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
               <div class="it-right-zone">
                   <?php
                     if($this->params->get('socialarea')) {
-                        if($this->params->get('social-facebook') || $this->params->get('social-instagram') || $this->params->get('social-twitter')  || $this->params->get('social-telegram') || $this->params->get('social-whatsapp')) {
+                        if($socialLinks['facebook'] || $socialLinks['instagram'] || $socialLinks['twitter']  || $socialLinks['telegram'] || $socialLinks['whatsapp'] || $socialLinks['youtube'] || $socialLinks['linkedin'] || $socialLinks['newsletter']) {
                         ?>
                           <div class="it-socials d-none d-md-flex">
                             <span>Seguici su</span>
                             <ul>
-                              <?php if($this->params->get('social-facebook')) {?>
+                              <?php if($socialLinks['facebook']) {?>
                               <li>
-                                <a href="<?php echo $this->params->get('social-facebook'); ?>" aria-label="Facebook" target="_blank">
+                                <a href="<?php echo $socialLinks['facebook']; ?>" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                                   <svg class="icon" aria-hidden="true" aria-label="Icona Facebook">
                                     <use href="<?php echo $iconsPath; ?>#it-facebook"></use>
                                   </svg>
@@ -200,10 +245,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                               </li>
                               <?php
                               }
-                              if($this->params->get('social-instagram')) {
+                              if($socialLinks['instagram']) {
                               ?>
                               <li>
-                                <a href="<?php echo $this->params->get('social-instagram'); ?>" aria-label="Instagram" target="_blank">
+                                <a href="<?php echo $socialLinks['instagram']; ?>" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                                   <svg class="icon" aria-hidden="true" aria-label="Icona Instagram">
                                     <use href="<?php echo $iconsPath; ?>#it-instagram"></use>
                                   </svg>
@@ -211,10 +256,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                               </li>
                               <?php
                               }
-                              if($this->params->get('social-twitter')) {
+                              if($socialLinks['twitter']) {
                               ?>
                               <li>
-                                <a href="<?php echo $this->params->get('social-twitter'); ?>" aria-label="Twitter" target="_blank">
+                                <a href="<?php echo $socialLinks['twitter']; ?>" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
                                   <svg class="icon" aria-hidden="true" aria-label="Icona Twitter">
                                     <use href="<?php echo $iconsPath; ?>#it-twitter"></use>
                                   </svg>
@@ -222,10 +267,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                               </li>
                               <?php
                               }
-                              if($this->params->get('social-youtube')) {
+                              if($socialLinks['youtube']) {
                               ?>
                               <li>
-                                <a href="<?php echo $this->params->get('social-youtube'); ?>" aria-label="YouTube" target="_blank">
+                                <a href="<?php echo $socialLinks['youtube']; ?>" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
                                   <svg class="icon" aria-hidden="true" aria-label="Icona YouTube">
                                     <use href="<?php echo $iconsPath; ?>#it-youtube"></use>
                                   </svg>
@@ -233,10 +278,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                               </li>
                               <?php
                               }
-                              if($this->params->get('social-telegram')) {
+                              if($socialLinks['telegram']) {
                               ?>
                               <li>
-                                <a href="<?php echo $this->params->get('social-telegram'); ?>" aria-label="YouTube" target="_blank">
+                                <a href="<?php echo $socialLinks['telegram']; ?>" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
                                   <svg class="icon" aria-hidden="true" aria-label="Icona Telegram">
                                     <use href="<?php echo $iconsPath; ?>#it-telegram"></use>
                                   </svg>
@@ -244,10 +289,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                               </li>
                               <?php
                               }
-                              if($this->params->get('social-whatsapp')) {
+                              if($socialLinks['whatsapp']) {
                               ?>
                               <li>
-                                <a href="<?php echo $this->params->get('social-whatsapp'); ?>" aria-label="YouTube" target="_blank">
+                                <a href="<?php echo $socialLinks['whatsapp']; ?>" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
                                   <svg class="icon" aria-hidden="true" aria-label="Icona Whatsapp">
                                     <use href="<?php echo $iconsPath; ?>#it-whatsapp"></use>
                                   </svg>
@@ -255,10 +300,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                               </li>
                               <?php
                               }
-                              if($this->params->get('social-linkedin')) {
+                              if($socialLinks['linkedin']) {
                               ?>
                               <li>
-                                <a href="<?php echo $this->params->get('social-linkedin'); ?>" aria-label="Linkedin" target="_blank">
+                                <a href="<?php echo $socialLinks['linkedin']; ?>" aria-label="Linkedin" target="_blank" rel="noopener noreferrer">
                                   <svg class="icon" aria-hidden="true" aria-label="Icona Linkedin">
                                     <use href="<?php echo $iconsPath; ?>#it-linkedin"></use>
                                   </svg>
@@ -266,10 +311,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                               </li>
                               <?php
                               }
-							  if($this->params->get('social-newsletter')) {
+							  if($socialLinks['newsletter']) {
                               ?>
                               <li>
-                                <a href="<?php echo $this->params->get('social-newsletter'); ?>" aria-label="Newsletter" target="_blank">
+                                <a href="<?php echo $socialLinks['newsletter']; ?>" aria-label="Newsletter" target="_blank" rel="noopener noreferrer">
                                   <svg class="icon" aria-hidden="true" aria-label="Icona Newsletter">
                                     <use href="<?php echo $iconsPath; ?>#it-mail"></use>
                                   </svg>
@@ -292,7 +337,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                       ?>
                       <div class="it-search-wrapper">
                         <span class="d-none d-md-block">Cerca</span>
-                        <a class="search-link rounded-icon" aria-label="Cerca nel sito" href="<?php echo $searchmenuitem->link;?>">
+                        <a class="search-link rounded-icon" aria-label="Cerca nel sito" href="<?php echo htmlspecialchars($searchmenuitem->link, ENT_QUOTES, 'UTF-8');?>">
                           <svg class="icon" aria-hidden="true" aria-label="Lente di ingrandimento">
                             <use href="<?php echo $iconsPath; ?>#it-search"></use>
                           </svg>
@@ -444,12 +489,12 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
           <div class="col-sm-12">
             <div class="it-brand-wrapper">
               <a href="<?php echo $this->baseurl; ?>/">
-            	<?php if (empty($this->params->get('siteFaIconClass', ""))) { ?>
+            	<?php if ($siteFaIconClass === '') { ?>
                 	<svg class="icon me-4" aria-label="Edificio">
                   		<use xlink:href="<?php echo $iconsPath; ?>#it-pa"></use>
                 	</svg>
                 <?php } else { ?>
-                	<span class="icon me-4 fa-3x <?php echo $this->params->get('siteFaIconClass', ""); ?>"></span>
+                	<span class="icon me-4 fa-3x <?php echo $siteFaIconClass; ?>"></span>
                 <?php } ?>
                 
                 <div class="it-brand-text">

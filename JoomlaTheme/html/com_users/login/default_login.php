@@ -72,22 +72,27 @@ $usersConfig = ComponentHelper::getParams('com_users');
                 $dataAttributeKeys = array_filter(array_keys($button), function ($key) {
                     return substr($key, 0, 5) == 'data-';
                 });
+                $buttonClass = htmlspecialchars((string) ($button['class'] ?? ''), ENT_QUOTES, 'UTF-8');
+                $buttonTitle = htmlspecialchars((string) Text::_($button['label']), ENT_QUOTES, 'UTF-8');
+                $buttonId = htmlspecialchars((string) ($button['id'] ?? ''), ENT_QUOTES, 'UTF-8');
+                $buttonOnclick = htmlspecialchars((string) ($button['onclick'] ?? ''), ENT_QUOTES, 'UTF-8');
+                $buttonIconClass = htmlspecialchars((string) ($button['icon'] ?? ''), ENT_QUOTES, 'UTF-8');
                 ?>
                 <div class="com-users-login__submit control-group">
                     <div class="controls">
                         <button type="button"
-                                class="btn btn-secondary w-100 <?php echo $button['class'] ?? '' ?>"
+                                class="btn btn-secondary w-100 <?php echo $buttonClass; ?>"
                                 <?php foreach ($dataAttributeKeys as $key) : ?>
-                                    <?php echo $key ?>="<?php echo $button[$key] ?>"
+                                    <?php echo htmlspecialchars((string) $key, ENT_QUOTES, 'UTF-8') ?>="<?php echo htmlspecialchars((string) $button[$key], ENT_QUOTES, 'UTF-8') ?>"
                                 <?php endforeach; ?>
-                                <?php if ($button['onclick']) : ?>
-                                onclick="<?php echo $button['onclick'] ?>"
+                                <?php if (!empty($button['onclick'])) : ?>
+                                onclick="<?php echo $buttonOnclick; ?>"
                                 <?php endif; ?>
-                                title="<?php echo Text::_($button['label']) ?>"
-                                id="<?php echo $button['id'] ?>"
+                                title="<?php echo $buttonTitle; ?>"
+                                id="<?php echo $buttonId; ?>"
                         >
                             <?php if (!empty($button['icon'])) : ?>
-                                <span class="<?php echo $button['icon'] ?>"></span>
+                                <span class="<?php echo $buttonIconClass; ?>"></span>
                             <?php elseif (!empty($button['image'])) : ?>
                                 <?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
                                     'class' => 'icon',

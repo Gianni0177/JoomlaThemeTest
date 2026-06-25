@@ -25,11 +25,7 @@ $app = Factory::getApplication();
 $template   = $app->getTemplate();
 $templatePath = JUri::base() . '/templates/' . $template;
 $iconsPath = $templatePath . "/svg/sprites.svg";
-
-$domainurl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
-$themeDir = str_replace($domainurl, "", $templatePath);
-
-include_once $_SERVER['DOCUMENT_ROOT']  . '/' .  $themeDir . '/functions.php';
+require_once JPATH_THEMES . '/' . $template . '/functions.php';
 
 // Create a shortcut for params.
 $params = $this->item->params;
@@ -110,13 +106,13 @@ $datestart = (findObjectByName($this->item->jcfields, "datestart")) ? findObject
 		</div>
               
         <div class="card-body">
-			<h3 class="card-title h5"><?php echo $this->item->title; ?></h3>
+			<h3 class="card-title h5"><?php echo $this->escape($this->item->title); ?></h3>
 			
             <?php if ($canEdit) : ?>
             	<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item)); ?>
             <?php endif; 
                 
-			if($summary !== "") { echo '<p class="card-text">' . $summary  . '</p>'; }
+			if($summary !== "") { echo '<p class="card-text">' . htmlspecialchars((string) $summary, ENT_QUOTES, 'UTF-8')  . '</p>'; }
                 
             if ($params->get('access-view')) :
 				$link = Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
